@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Usuario = require('../models/User');
 const { responseHTTP } = require('../utils/responseHttp');
 
@@ -12,12 +13,15 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
     const existEmail = await Usuario.findOne({ email });
     if (existEmail) {
       return responseHTTP(400, null, 'Este email ya ha sido registrado', false, res);
     }
     const usuario = new Usuario(req.body);
+    // Encrypt password
+    const salt = bcrypt.genSaltSync();
+    usuario.password = bcrypt.hashSync(password, salt);
     await usuario.save();
     return responseHTTP(200, usuario, null, true, res);
   } catch (error) {
