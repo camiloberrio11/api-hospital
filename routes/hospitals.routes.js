@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const { Router } = require('express');
 const {
@@ -17,7 +17,11 @@ const router = Router();
 
 router.get('/', getHospitals);
 router.put('/:id', [], updateHospital);
-router.post('/', [], createHospital);
+router.post(
+  '/',
+  [validateJwt, check('name', 'Nombre del hospital obligatorio').not().isEmpty(), validateFields],
+  createHospital
+);
 router.delete('/:id', validateJwt, deleteHospital);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const { Schema, model } = require('mongoose');
 
@@ -13,10 +13,12 @@ const DoctorSchema = Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'Users',
+    required: true,
   },
   hospital: {
     type: Schema.Types.ObjectId,
     ref: 'Hospital',
+    required: true,
   },
 });
 
@@ -25,4 +27,4 @@ DoctorSchema.method('toJSON', function () {
   return object;
 });
 
-module.exports = model('Hospital', DoctorSchema);
+module.exports = model('Doctor', DoctorSchema);

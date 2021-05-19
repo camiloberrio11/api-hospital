@@ -1,4 +1,5 @@
-'use strict'
+'use strict';
+const Doctor = require('../models/Doctor');
 
 const { responseHTTP } = require('../utils/responseHttp');
 
@@ -12,9 +13,15 @@ const updateDoctors = (req, res) => {
   } catch (error) {}
 };
 
-const createDoctors = (req, res) => {
+const createDoctors = async (req, res) => {
   try {
-  } catch (error) {}
+    const uidUser = req.uid;
+    const doctor = new Doctor({ ...req.body, user: uidUser });
+    const doctorSaved = await doctor.save();
+    return responseHTTP(200, doctorSaved, 'Medico guardado', true, res);
+  } catch (error) {
+    return responseHTTP(500, null, error.message, false, res);
+  }
 };
 
 const deleteDoctors = (req, res) => {
@@ -26,5 +33,5 @@ module.exports = {
   getDoctors,
   updateDoctors,
   createDoctors,
-  deleteDoctors
+  deleteDoctors,
 };

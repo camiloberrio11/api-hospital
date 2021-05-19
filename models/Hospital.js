@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const { Schema, model } = require('mongoose');
 
@@ -12,7 +12,8 @@ const HospitalSchema = Schema({
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'Users'
+    ref: 'Users',
+    required: true,
   },
 });
 
